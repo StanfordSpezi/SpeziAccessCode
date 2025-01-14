@@ -102,6 +102,7 @@ final class AccessGuardViewModel {
         }
     }
     
+    @MainActor
     func checkAccessCode(_ code: String) async throws {
         try await MainActor.run {
             if let fixedCode = configuration.fixedCode, code == fixedCode {
@@ -112,7 +113,6 @@ final class AccessGuardViewModel {
             guard code == accessCode?.code else {
                 throw AccessGuardError.wrongPasscode
             }
-            
             locked = false
         }
     }

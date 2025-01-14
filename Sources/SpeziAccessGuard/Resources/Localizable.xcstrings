@@ -85,6 +85,39 @@
         }
       }
     },
+    "ACCESS_GUARD_ERROR_INVALID_CODE_FORMAT_ONLY_NUMERIC_ALLOWED" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only numbers allowed"
+          }
+        }
+      }
+    },
+    "ACCESS_GUARD_ERROR_INVALID_CODE_LENGTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid code length"
+          }
+        }
+      }
+    },
+    "ACCESS_GUARD_ERROR_INVALID_CODE_LENGTH_TOO_SHORT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code is too short"
+          }
+        }
+      }
+    },
     "ACCESS_GUARD_ERROR_STORE_CODE_ERROR_REASON" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -221,6 +254,18 @@
         }
       }
     },
+    "ENTER_PASSCODE_CONFIRM_BUTTON" : {
+      "comment" : "To confirm alphanumeric or custom numeric passcodes",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
     "PASSCODE_FIELD" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -285,6 +330,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reset"
+          }
+        }
+      }
+    },
+    "SET_PASSCODE_CONFIRM_BUTTON" : {
+      "comment" : "To save passcode after repeating the code",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "SET_PASSCODE_NEXT_BUTTON" : {
+      "comment" : "To continue to the passcode repeat view",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
           }
         }
       }

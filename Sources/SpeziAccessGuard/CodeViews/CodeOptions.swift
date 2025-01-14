@@ -20,30 +20,23 @@ public struct CodeOptions: OptionSet, Codable, CaseIterable, Identifiable {
     
     /// A four digit numeric code.
     public static let fourDigitNumeric = CodeOptions(rawValue: 1 << 0)
+    
     /// A six digit numeric code.
-    ///
-    /// > Warning: Not yet implemented
-    private static let sixDigitNumeric = CodeOptions(rawValue: 1 << 1)
+    public static let sixDigitNumeric = CodeOptions(rawValue: 1 << 1)
+    
     /// A numeric code with at least four digits in length.
-    ///
-    /// > Warning: Not yet implemented
-    private static let customNumeric = CodeOptions(rawValue: 1 << 2)
+    public static let customNumeric = CodeOptions(rawValue: 1 << 2)
+    
     /// A alphanumeric code with at least four characters in length.
-    ///
-    /// > Warning: Not yet implemented
-    private static let customAlphanumeric = CodeOptions(rawValue: 1 << 3)
+    public static let customAlphanumeric = CodeOptions(rawValue: 1 << 3)
     
     /// A finite numeric code.
-    ///
-    /// > Warning: Not yet implemented
-    private static let finiteNumeric: CodeOptions = [.fourDigitNumeric, .sixDigitNumeric]
+    public static let finiteNumeric: CodeOptions = [.fourDigitNumeric, .sixDigitNumeric]
+    
     /// A numeric code.
-    ///
-    /// > Warning: Not yet implemented
-    private static let numeric: CodeOptions = [.fourDigitNumeric, .sixDigitNumeric, .customNumeric]
+    public static let numeric: CodeOptions = [.fourDigitNumeric, .sixDigitNumeric, .customNumeric]
+    
     /// A numeric or alphanumeric code.
-    ///
-    /// > Warning: Not yet implemented
     public static let all: CodeOptions = [.fourDigitNumeric, .sixDigitNumeric, .customNumeric, .customAlphanumeric]
     
     
@@ -95,18 +88,70 @@ public struct CodeOptions: OptionSet, Codable, CaseIterable, Identifiable {
     public init(rawValue: Int) {
         self.rawValue = rawValue
     }
+
+    /// Verifies that the code is only digits for numeric code types
+    private func verifyOnlyDigits(ofCode code: String) -> Bool {
+        if (self == .fourDigitNumeric || self == .sixDigitNumeric || self == .customNumeric) {
+            return code.isNumeric
+        }
+        return true
+    }
     
+    /// Verifies that the code has the correct length
+    private func verifyCodeLength(ofCode code: String) -> Bool {
+        switch self {
+            case .customNumeric, .customAlphanumeric:
+                return code.count >= CodeOptions.fourDigitNumeric.maxLength
+            case .fourDigitNumeric, .sixDigitNumeric:
+                return code.count == self.maxLength
+            default:
+                return false
+        }
+    }
     
+    ///Performs all possible checks on a given code to verify if it is valid
     func verifyStructure(ofCode code: String) -> Bool {
+        return verifyOnlyDigits(ofCode: code) && verifyCodeLength(ofCode: code)
+    }
+    
+    /// Check for correct letters and for auto submission while user is typing
+    func continousValidation(ofCode code: String) -> ValidationResult {
+        if !verifyOnlyDigits(ofCode: code) {
+            return .failure(.invalidCodeFormatOnlyNumericAllowed)
+        }
+        if shouldAutoSubmit(code) {
+            return .submit
+        }
+        return .valid
+    }
+    
+    /// Function is invoked on button press and checks if the length is correct
+    func submissionValidation(ofCode code: String) -> ValidationResult {
+        if !self.verifyCodeLength(ofCode: code) {
+            return .failure(.invalidMinimumCodeLength)
+        }
+        return .submit
+    }
+
+    /// Check if the code is long enough to auto submit
+    func shouldAutoSubmit(_ code: String) -> Bool {
         switch self {
         case .fourDigitNumeric, .sixDigitNumeric:
-            return code.isNumeric && code.count == maxLength
-        case .customNumeric:
-            return code.isNumeric && code.count >= CodeOptions.fourDigitNumeric.maxLength
-        case .customAlphanumeric:
-            return code.count >= CodeOptions.fourDigitNumeric.maxLength
+            return code.count == maxLength
         default:
             return false
         }
     }
+    
+    ///Tells the caller wether the selected code option can submit automatically
+    func willAutoSubmit() -> Bool {
+        return self == .fourDigitNumeric || self == .sixDigitNumeric
+    }
+}
+
+enum ValidationResult {
+    case none
+    case valid
+    case submit
+    case failure(AccessGuardError)
 }
