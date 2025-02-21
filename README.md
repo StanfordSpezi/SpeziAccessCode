@@ -51,17 +51,18 @@ In the example below, we configure the [`AccessGuardModule`](https://swiftpackag
 import Spezi
 import SpeziAccessGuard
 
-
 class ExampleDelegate: SpeziAppDelegate {
     override var configuration: Configuration {
         Configuration {
-            AccessGuardModule(
-                [
-                    .code(identifier: "ExampleIdentifier", codeOptions: .fourDigitNumeric, timeout: 15 * 60)
-                ]
-            )
+            AccessGuardModule([
+                .code(identifier: .exampleAccessGuard, codeOptions: .fourDigitNumeric, timeout: 15 * 60)
+            ])
         }
     }
+}
+
+extension AccessGuardIdentifier {
+    static let exampleAccessGuard = Self("edu.stanford.spezi.exampleAccessGuard")
 }
 ```
 
@@ -77,11 +78,9 @@ import SpeziAccessGuard
 class ExampleDelegate: SpeziAppDelegate {
     override var configuration: Configuration {
         Configuration {
-            AccessGuardModule(
-                [
-                    .biometric(identifier: "ExampleIdentifier", codeOptions: .fourDigitNumeric, timeout: 15 * 60)
-                ]
-            )
+            AccessGuardModule([
+                .biometric(identifier: .exampleAccessGuard, codeOptions: .fourDigitNumeric, timeout: 15 * 60)
+            ])
         }
     }
 }
@@ -99,11 +98,9 @@ import SpeziAccessGuard
 class ExampleDelegate: SpeziAppDelegate {
     override var configuration: Configuration {
         Configuration {
-            AccessGuardModule(
-                [
-                    .fixed(identifier: "ExampleIdentifier", code: "1234", codeOptions: .fourDigitNumeric, timeout: 15 * 60)
-                ]
-            )
+            AccessGuardModule([
+                .fixed(identifier: .exampleAccessGuard, code: "1234", codeOptions: .fourDigitNumeric, timeout: 15 * 60)
+            ])
         }
     }
 }
@@ -121,14 +118,17 @@ import SpeziAccessGuard
 class ExampleDelegate: SpeziAppDelegate {
     override var configuration: Configuration {
         Configuration {
-            AccessGuardModule(
-                [
-                    .biometric(identifier: "ExampleIdentifier"),
-                    .fixed(identifier: "ExampleFixedIdentifier", code: "1234")
-                ]
-            )
+            AccessGuardModule([
+                .biometric(identifier: .accessGuard1),
+                .fixed(identifier: .accessGuard2, code: "1234")
+            ])
         }
     }
+}
+
+extension AccessGuardIdentifier {
+    static let accessGuard1 = Self("edu.stanford.spezi.exampleAccessGuard1")
+    static let accessGuard2 = Self("edu.stanford.spezi.exampleAccessGuard2")
 }
 ```
 
@@ -155,7 +155,7 @@ import SpeziAccessGuard
 
 struct SetAccessCode: View {
     var body: some View {
-        SetAccessGuard(identifier: "ExampleIdentifier")
+        SetAccessGuard(identifier: .exampleAccessGuard)
     }
 }
 ```
@@ -169,7 +169,7 @@ import SpeziAccessGuard
 
 struct ProtectedContent: View {    
     var body: some View {
-        AccessGuarded("ExampleIdentifier") {
+        AccessGuarded(.exampleAccessGuard) {
             Text("Secured content...")
         }
     }
@@ -185,13 +185,13 @@ struct ProtectedContent: View {
     @Environment(AccessGuard.self) private var accessGuard
     
     var body: some View {
-        AccessGuarded("ExampleIdentifier") {
+        AccessGuarded(.exampleAccessGuard) {
             Text("Secured content...")
         }
         .toolbar {
             ToolbarItem {
                 Button("Lock Access Guard") {
-                    try? accessGuard.lock(identifier: "ExampleIdentifier")
+                    try? accessGuard.lock(identifier: .exampleAccessGuard)
                 }
             }
         }
@@ -208,13 +208,13 @@ struct ProtectedContent: View {
     @Environment(AccessGuard.self) private var accessGuard
     
     var body: some View {
-        AccessGuarded("ExampleIdentifier") {
+        AccessGuarded(.exampleAccessGuard) {
             Text("Secured content...")
         }
         .toolbar {
             ToolbarItem {
                 Button("Reset Access Guard") {
-                    try? accessGuard.resetAccessCode(for: "ExampleIdentifier")
+                    try? accessGuard.resetAccessCode(for: .exampleAccessGuard)
                 }
             }
         }

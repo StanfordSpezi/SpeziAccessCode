@@ -19,7 +19,7 @@ struct ContentView: View {
         NavigationStack {
             List {
                 NavigationLink("Access Guarded") {
-                    AccessGuarded("TestIdentifier") {
+                    AccessGuarded(.test) {
                         Color.green
                             .overlay {
                                 Text("Secured ...")
@@ -27,7 +27,7 @@ struct ContentView: View {
                     }
                 }
                 NavigationLink("Access Guarded Fixed") {
-                    AccessGuarded("TestFixedIdentifier") {
+                    AccessGuarded(.testFixed) {
                         Color.green
                             .overlay {
                                 Text("Secured with fixed code ...")
@@ -35,7 +35,7 @@ struct ContentView: View {
                     }
                 }
                 NavigationLink("Access Guarded Biometrics") {
-                    AccessGuarded("TestBiometricsIdentifier") {
+                    AccessGuarded(.testBiometrics) {
                         Color.green
                             .overlay {
                                 Text("Secured with biometrics ...")
@@ -43,17 +43,17 @@ struct ContentView: View {
                     }
                 }
                 NavigationLink("Set Code") {
-                    SetAccessGuard(identifier: "TestIdentifier")
+                    SetAccessGuard(identifier: .test)
                 }
                 NavigationLink("Set Biometric Backup Code") {
-                    SetAccessGuard(identifier: "TestBiometricsIdentifier")
+                    SetAccessGuard(identifier: .testBiometrics)
                 }
             }
                 .toolbar {
                     ToolbarItem {
                         Button("Lock Access Guards") {
                             Task {
-                                let identifiers = ["TestIdentifier", "TestFixedIdentifier", "TestBiometricsIdentifier"]
+                                let identifiers: [AccessGuardIdentifier] = [.test, .testFixed, .testBiometrics]
                                 for identifier in identifiers {
                                     await accessGuard.lock(identifier: identifier)
                                 }
@@ -62,7 +62,7 @@ struct ContentView: View {
                     }
                     ToolbarItem {
                         Button("Reset Access Guards") {
-                            let identifiers = ["TestIdentifier", "TestBiometricsIdentifier"]
+                            let identifiers: [AccessGuardIdentifier] = [.test, .testBiometrics]
                             for identifier in identifiers {
                                 try? accessGuard.resetAccessCode(for: identifier)
                             }

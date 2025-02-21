@@ -12,9 +12,6 @@ import SpeziViews
 
 /// Configures the behaviour of the ``AccessGuard`` view.
 public struct AccessGuardConfiguration {
-    /// Unique identifier for the ``AccessGuardConfiguration``
-    public typealias Identifier = String
-    
     /// The defaults for the ``AccessGuardConfiguration``
     public enum Defaults {
         /// Default code option, subject to change in the future.
@@ -24,7 +21,7 @@ public struct AccessGuardConfiguration {
     }
     
     
-    let identifier: Identifier
+    let identifier: AccessGuardIdentifier
     let guardType: GuardType
     let codeOptions: CodeOptions
     let timeout: TimeInterval
@@ -32,7 +29,7 @@ public struct AccessGuardConfiguration {
     
     
     init(
-        identifier: Identifier,
+        identifier: AccessGuardIdentifier,
         guardType: GuardType,
         codeOptions: CodeOptions,
         timeout: TimeInterval,
@@ -53,7 +50,7 @@ public struct AccessGuardConfiguration {
     ///
     /// > Warning: Not yet implemented
     private static func codeIfUnprotected(
-        identifier: Identifier,
+        identifier: AccessGuardIdentifier,
         codeOptions: CodeOptions = Defaults.codeOptions,
         timeout: TimeInterval = Defaults.timeout
     ) -> AccessGuardConfiguration {
@@ -65,7 +62,7 @@ public struct AccessGuardConfiguration {
     ///   - codeOptions: The code options, see ``CodeOptions``.
     ///   - timeout: The timeout when the view should be locked based on the time the scene is not in the foreground.
     public static func code(
-        identifier: Identifier,
+        identifier: AccessGuardIdentifier,
         codeOptions: CodeOptions = .fourDigitNumeric,
         timeout: TimeInterval = Defaults.timeout
     ) -> AccessGuardConfiguration {
@@ -78,7 +75,7 @@ public struct AccessGuardConfiguration {
     ///   - codeOptions: The code options, see ``CodeOptions``.
     ///   - timeout: The timeout when the view should be locked based on the time the scene is not in the foreground.
     public static func fixed(
-        identifier: Identifier,
+        identifier: AccessGuardIdentifier,
         code: String,
         codeOptions: CodeOptions = .fourDigitNumeric,
         timeout: TimeInterval = Defaults.timeout
@@ -92,7 +89,7 @@ public struct AccessGuardConfiguration {
     ///   - timeout: The timeout when the view should be locked based on the time the scene is not in the foreground.
     ///
     public static func biometrics(
-        identifier: Identifier,
+        identifier: AccessGuardIdentifier,
         codeOptions: CodeOptions = .fourDigitNumeric,
         timeout: TimeInterval = Defaults.timeout
     ) -> AccessGuardConfiguration {

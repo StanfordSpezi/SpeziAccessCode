@@ -16,11 +16,18 @@ class TestAppDelegate: SpeziAppDelegate {
         Configuration {
             AccessGuardModule(
                 [
-                    .biometrics(identifier: "TestBiometricsIdentifier"),
-                    .code(identifier: "TestIdentifier", timeout: 10),
-                    .fixed(identifier: "TestFixedIdentifier", code: "1234")
+                    .biometrics(identifier: .testBiometrics),
+                    .code(identifier: .test, timeout: 10),
+                    .fixed(identifier: .testFixed, code: "1234")
                 ]
             )
         }
     }
+}
+
+
+extension AccessGuardIdentifier {
+    static let test = Self("edu.stanford.spezi.accessguardtests.1.test")
+    static let testFixed = Self("edu.stanford.spezi.accessguardtests.1.testFixed")
+    static let testBiometrics = Self("edu.stanford.spezi.accessguardtests.1.testBiometrics")
 }

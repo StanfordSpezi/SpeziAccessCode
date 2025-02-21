@@ -16,7 +16,7 @@ import SwiftUI
 /// in a [`SpeziAppDelegate`](https://swiftpackageindex.com/stanfordspezi/spezi/documentation/spezi/speziappdelegate) as detailed in the ``AccessGuard`` documentation.
 ///
 /// ```swift
-/// AccessGuarded(identifier: "TestIdentifier") {
+/// AccessGuarded(identifier: .accessGuardIdentifier) {
 ///     Text("Secured View")
 /// }
 /// ```
@@ -25,7 +25,7 @@ import SwiftUI
 public struct AccessGuarded<GuardedView: View>: View {
     @Environment(AccessGuard.self) private var accessGuard
     
-    private let identifier: AccessGuardConfiguration.Identifier
+    private let identifier: AccessGuardIdentifier
     private let guardedView: GuardedView
     
     
@@ -41,7 +41,7 @@ public struct AccessGuarded<GuardedView: View>: View {
     ///   - identifier: The identifier of the access guard configuration that should be used to guard this view.
     ///   - guarded: The guarded view.
     public init(
-        _ identifier: AccessGuardConfiguration.Identifier,
+        _ identifier: AccessGuardIdentifier,
         @ViewBuilder guarded guardedView: () -> GuardedView
     ) {
         self.identifier = identifier
@@ -50,10 +50,11 @@ public struct AccessGuarded<GuardedView: View>: View {
 }
 
 
-struct AccessCodeGuard_Previews: PreviewProvider {
-    static var previews: some View {
-        AccessGuarded("MyGuardedView") {
-            Text(verbatim: "Guarded View")
-        }
+#if DEBUG
+#Preview {
+    let identifier = AccessGuardIdentifier("edu.stanford.spezi.myView")
+    AccessGuarded(identifier) {
+        Text("Super secret stuff 🤫")
     }
 }
+#endif

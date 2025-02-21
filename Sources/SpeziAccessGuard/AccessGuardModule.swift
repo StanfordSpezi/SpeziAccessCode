@@ -22,11 +22,9 @@ import SwiftUI
 /// class ExampleAppDelegate: SpeziAppDelegate {
 ///     override var configuration: Configuration {
 ///         Configuration {
-///             AccessGuardModule(
-///                 [
-///                     .code(identifier: "TestIdentifier")
-///                 ]
-///             )
+///             AccessGuardModule([
+///                 .code(identifier: .exampleAccessGuard)
+///             ])
 ///             // ...
 ///         }
 ///     }

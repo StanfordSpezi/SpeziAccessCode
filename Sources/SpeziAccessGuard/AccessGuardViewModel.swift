@@ -48,7 +48,7 @@ final class AccessGuardViewModel {
         self.accessGuard = accessGuard
         self.keychainStorage = keychainStorage
         
-        if let credentials = try? keychainStorage.retrieveCredentials(withUsername: configuration.identifier, for: .accessGuard),
+        if let credentials = try? keychainStorage.retrieveCredentials(withUsername: configuration.identifier.value, for: .accessGuard),
            let accessCode = try? JSONDecoder().decode(AccessCode.self, from: Data(credentials.password.utf8)),
            accessCode.codeOption.verifyStructure(ofCode: accessCode.code) {
             self.accessCode = accessCode
@@ -94,7 +94,7 @@ final class AccessGuardViewModel {
         }
         
         do {
-            try keychainStorage.deleteCredentials(withUsername: configuration.identifier, for: .accessGuard)
+            try keychainStorage.deleteCredentials(withUsername: configuration.identifier.value, for: .accessGuard)
             accessCode = nil
             self.locked = setup
         } catch {
@@ -136,7 +136,7 @@ final class AccessGuardViewModel {
         }
         
         try keychainStorage.store(
-            Credentials(username: configuration.identifier, password: accessCodeData),
+            Credentials(username: configuration.identifier.value, password: accessCodeData),
             for: .accessGuard
         )
         
