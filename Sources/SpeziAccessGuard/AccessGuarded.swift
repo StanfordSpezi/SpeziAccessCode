@@ -26,7 +26,7 @@ public struct AccessGuarded<GuardedView: View>: View {
     @Environment(AccessGuard.self) private var accessGuard
     
     private let identifier: AccessGuardIdentifier
-    private let guardedView: GuardedView
+    private let guardedView: () -> GuardedView
     
     
     public var body: some View {
@@ -42,10 +42,10 @@ public struct AccessGuarded<GuardedView: View>: View {
     ///   - guarded: The guarded view.
     public init(
         _ identifier: AccessGuardIdentifier,
-        @ViewBuilder guarded guardedView: () -> GuardedView
+        @ViewBuilder guarded guardedView: @escaping () -> GuardedView
     ) {
         self.identifier = identifier
-        self.guardedView = guardedView()
+        self.guardedView = guardedView
     }
 }
 

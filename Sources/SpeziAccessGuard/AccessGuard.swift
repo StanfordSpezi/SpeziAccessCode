@@ -130,6 +130,12 @@ public final class AccessGuard {
         await viewModel(for: identifier).lock()
     }
     
+    /// Checks is the `AccessGuard` associated with the given identifier is currently locked.
+    @MainActor
+    public func isLocked(identifier: AccessGuardIdentifier) -> Bool {
+        viewModel(for: identifier).locked
+    }
+    
     @MainActor
     func viewModel(for identifier: AccessGuardIdentifier) -> AccessGuardViewModel {
         guard let configuration = configurations.first(where: { $0.identifier == identifier }) else {

@@ -48,6 +48,13 @@ struct ContentView: View {
                 NavigationLink("Set Biometric Backup Code") {
                     SetAccessGuard(identifier: .testBiometrics)
                 }
+                NavigationLink("Access Guard Button") {
+                    AccessGuardButton(.testFixed) {
+                        Text("Unlock me")
+                    } unlocked: {
+                        Text("Success")
+                    }
+                }
             }
                 .toolbar {
                     ToolbarItem {

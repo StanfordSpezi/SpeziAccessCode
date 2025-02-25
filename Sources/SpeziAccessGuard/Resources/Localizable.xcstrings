@@ -136,6 +136,22 @@
         }
       }
     },
+    "CANCEL" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
     "CODE_OPTIONS_CUSTOM_ALPHANUMERIC_DIGIT" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -336,6 +352,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Please repeat your new passcode"
+          }
+        }
+      }
+    },
+    "UNLOCK_TITLE" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entsperren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock"
           }
         }
       }

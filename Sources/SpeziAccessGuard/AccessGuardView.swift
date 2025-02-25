@@ -11,31 +11,35 @@ import SwiftUI
 
 
 struct AccessGuardView<GuardedView: View>: View {
-    private let guardedView: GuardedView
+    private let guardedView: () -> GuardedView
     private let viewModel: AccessGuardViewModel
 
     
     var body: some View {
-        guardedView
-            .overlay {
-                if viewModel.locked {
-                    EnterCodeView(viewModel: viewModel)
-                        .ignoresSafeArea(.container)
-                }
-            }
-            .onAppear {
-                if viewModel.locked && viewModel.configuration.guardType == .biometrics {
-                    Task {
-                        try? await viewModel.authenticateWithBiometrics()
+        if viewModel.locked {
+            VStack { }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .overlay {
+                    if viewModel.locked {
+                        EnterCodeView(viewModel: viewModel)
+                            .ignoresSafeArea(.container)
                     }
                 }
-            }
+                .onAppear {
+                    if viewModel.locked && viewModel.configuration.guardType == .biometrics {
+                        Task {
+                            try? await viewModel.authenticateWithBiometrics()
+                        }
+                    }
+                }
+        } else {
+            guardedView()
+        }
     }
-    
     
     init(
         viewModel: AccessGuardViewModel,
-        guardedView: GuardedView
+        guardedView: @escaping () -> GuardedView
     ) {
         self.guardedView = guardedView
         self.viewModel = viewModel
